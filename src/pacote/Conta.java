@@ -1,10 +1,13 @@
 package pacote;
 
+
+
 public class Conta {
     
     int conta;
     String nome;
     float saldo;
+    float cheque;
 
     public int getConta() {
         return conta;
@@ -30,18 +33,33 @@ public class Conta {
         this.saldo = saldo;
     }
     
-    public void saque ( float valorSaque){
-        this.saldo -= valorSaque;
+    public boolean credito ( float valor){
+        if(this.saldo + this.cheque >= valor){
+            this.saldo -= valor;
+            return true;
+        }else{
+            return false;
+        }
     }
     
-    public void deposito(float valorDeposito){
-        this.saldo += valorDeposito;
+    public void debito(float valor){
+        this.saldo += valor;
     }
+
+    public float getCheque() {
+        return cheque;
+    }
+
+    public void setCheque(float cheque) {
+        this.cheque = cheque;
+    }
+    
+    
    
-    @Override
-    public String toString(){
+    
+    public String imprimeConta(){
         return "Conta: " + this.conta + " - " + this.nome + " - Saldo: R$ " + this.saldo;
     }
-    
+
           
 }
