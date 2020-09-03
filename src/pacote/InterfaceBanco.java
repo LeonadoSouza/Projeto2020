@@ -6,7 +6,7 @@
 package pacote;
 
 import ferramentas.CaixaDeDialogo;
-import java.util.Random;
+
 
 
 /**
@@ -22,20 +22,10 @@ public class InterfaceBanco extends javax.swing.JFrame {
     Conta conta2;
     public InterfaceBanco() {
         initComponents();
-        Random gerador = new Random();
-        conta1 = new Conta();
-        conta2 = new Conta();
         
-        conta1.setConta(1);
-        conta1.setNome("Jonas");
-        conta1.setSaldo(gerador.nextInt(1000));
-        conta1.setCheque(gerador.nextInt(1000));
-        
-        
-        conta2.setConta(2);
-        conta2.setNome("Juca");
-        conta2.setSaldo(gerador.nextInt(1000));
-        conta2.setCheque(gerador.nextInt(1000));
+        ContaController controller = new ContaController();
+        conta1 = controller.buscar(1);
+        conta2 = controller.buscar(2);
         
         atualizarInformacoesTela();
         
@@ -43,8 +33,8 @@ public class InterfaceBanco extends javax.swing.JFrame {
     private void atualizarInformacoesTela(){
         lblConta1.setText(conta1.getNome());
         lblConta2.setText(conta2.getNome());
-        lblChequeEspecialConta1.setText(String.valueOf(conta1.getCheque()));
-        lblChequeEspecialConta2.setText(String.valueOf(conta2.getCheque()));
+        lblChequeEspecialConta1.setText(String.valueOf(conta1.getCheque_especial()));
+        lblChequeEspecialConta2.setText(String.valueOf(conta2.getCheque_especial()));
         lblSaldoConta1.setText(String.valueOf(conta1.getSaldo()));
         lblSaldoConta2.setText(String.valueOf(conta2.getSaldo()));
     }

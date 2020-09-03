@@ -4,16 +4,25 @@ package pacote;
 
 public class Conta {
     
-    int conta;
-    String nome;
-    float saldo;
-    float cheque;
+    private int id;
+    private String conta;
+    private String nome;
+    private float saldo;
+    private float cheque_especial;
 
-    public int getConta() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getConta() {
         return conta;
     }
 
-    public void setConta(int conta) {
+    public void setConta(String conta) {
         this.conta = conta;
     }
 
@@ -34,7 +43,7 @@ public class Conta {
     }
     
     public boolean credito ( float valor){
-        if(this.saldo + this.cheque >= valor){
+        if(this.saldo + this.cheque_especial >= valor){
             this.saldo -= valor;
             return true;
         }else{
@@ -46,17 +55,15 @@ public class Conta {
         this.saldo += valor;
     }
 
-    public float getCheque() {
-        return cheque;
+    public float getCheque_especial() {
+        return cheque_especial;
     }
 
-    public void setCheque(float cheque) {
-        this.cheque = cheque;
+    public void setCheque_especial(float cheque_especial) {
+        this.cheque_especial = cheque_especial;
     }
-    
-    
-   
-    
+
+
     public String imprimeConta(){
         return "Conta: " + this.conta + " - " + this.nome + " - Saldo: R$ " + this.saldo;
     }
