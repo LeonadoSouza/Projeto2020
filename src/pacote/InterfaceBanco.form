@@ -126,9 +126,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtValorConta1">
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtValorConta1FocusGained"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtValorConta2">
     </Component>

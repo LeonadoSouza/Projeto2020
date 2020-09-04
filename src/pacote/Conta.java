@@ -42,18 +42,7 @@ public class Conta {
         this.saldo = saldo;
     }
     
-    public boolean credito ( float valor){
-        if(this.saldo + this.cheque_especial >= valor){
-            this.saldo -= valor;
-            return true;
-        }else{
-            return false;
-        }
-    }
     
-    public void debito(float valor){
-        this.saldo += valor;
-    }
 
     public float getCheque_especial() {
         return cheque_especial;

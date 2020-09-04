@@ -22,8 +22,8 @@ public class BancoObjetos {
         System.out.println(conta2.imprimeConta());
         
         
-        conta1.credito(50);
-        conta2.debito(200);
+//        conta1.credito(50);
+//        conta2.debito(200);
         
         System.out.println(conta1.imprimeConta());
         System.out.println(conta2.imprimeConta());

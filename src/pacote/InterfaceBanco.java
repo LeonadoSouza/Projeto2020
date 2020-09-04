@@ -27,10 +27,19 @@ public class InterfaceBanco extends javax.swing.JFrame {
         conta1 = controller.buscar(1);
         conta2 = controller.buscar(2);
         
+        
+        
         atualizarInformacoesTela();
         
     }
     private void atualizarInformacoesTela(){
+        ContaController controller = new ContaController();
+        float saldoConta1 = controller.buscarSaldo(1);
+        float saldoConta2 = controller.buscarSaldo(2);
+        
+        conta1.setSaldo(saldoConta1);
+        conta2.setSaldo(saldoConta2);
+        
         lblConta1.setText(conta1.getNome());
         lblConta2.setText(conta2.getNome());
         lblChequeEspecialConta1.setText(String.valueOf(conta1.getCheque_especial()));
@@ -82,12 +91,6 @@ public class InterfaceBanco extends javax.swing.JFrame {
         tnTransferirConta2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tnTransferirConta2ActionPerformed(evt);
-            }
-        });
-
-        txtValorConta1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtValorConta1FocusGained(evt);
             }
         });
 
@@ -200,30 +203,32 @@ public class InterfaceBanco extends javax.swing.JFrame {
     private void btnDepositarConta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepositarConta1ActionPerformed
         try{
             float valor = Float.parseFloat(txtValorConta1.getText());
-            conta1.debito(valor);
-            atualizarInformacoesTela();
-            CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
-            System.out.println("Operação de depósito no valor de R$: " + valor);
+            ContaController controller = new ContaController();
+            boolean retorno = controller.debito(conta1.getId(), valor);
+            if(retorno){
+                atualizarInformacoesTela();
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
+                System.out.println("Operação de depósito no valor de R$: " + valor);
+            }else{
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Erro na operação", 'e');
+            }
+            
         }catch (Exception ex){
             CaixaDeDialogo.obterinstancia().exibirMensagem("Erro: " + ex.getMessage(), 'e');
         }
     }//GEN-LAST:event_btnDepositarConta1ActionPerformed
 
-    private void txtValorConta1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtValorConta1FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtValorConta1FocusGained
-
     private void btnSacarConta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarConta1ActionPerformed
-        try{
+      try{
             float valor = Float.parseFloat(txtValorConta1.getText());
-            boolean resultado = conta1.credito(valor);
-            if(resultado){
+            ContaController controller = new ContaController();
+            boolean retorno = controller.credito(conta1, valor);
+            if(retorno){
                 atualizarInformacoesTela();
                 CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
                 System.out.println("Operação de saque no valor de R$: " + valor);
             }else{
-                CaixaDeDialogo.obterinstancia().exibirMensagem("Saldo insuficiente", 'a');
-                System.out.println("Erro: Operação de saque no valor de R$ " + valor);
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Erro na operação", 'e');
             }
             
         }catch (Exception ex){
@@ -232,16 +237,16 @@ public class InterfaceBanco extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSacarConta1ActionPerformed
 
     private void btnSacarConta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarConta2ActionPerformed
-        try{
+    try{
             float valor = Float.parseFloat(txtValorConta2.getText());
-            boolean resultado = conta2.credito(valor);
-            if(resultado){
+            ContaController controller = new ContaController();
+            boolean retorno = controller.credito(conta2, valor);
+            if(retorno){
                 atualizarInformacoesTela();
                 CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
                 System.out.println("Operação de saque no valor de R$: " + valor);
             }else{
-                CaixaDeDialogo.obterinstancia().exibirMensagem("Saldo insuficiente", 'a');
-                System.out.println("Erro: Operação de saque no valor de R$: " + valor);
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Erro na operação", 'e');
             }
             
         }catch (Exception ex){
@@ -250,12 +255,18 @@ public class InterfaceBanco extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSacarConta2ActionPerformed
 
     private void btnDespositarConta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDespositarConta2ActionPerformed
-        try{
+         try{
             float valor = Float.parseFloat(txtValorConta2.getText());
-            conta2.debito(valor);
-            atualizarInformacoesTela();
-            CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
-            System.out.println("Operação de depósito no valor de R$: " + valor);
+            ContaController controller = new ContaController();
+            boolean retorno = controller.debito(conta2.getId(), valor);
+            if(retorno){
+                atualizarInformacoesTela();
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
+                System.out.println("Operação de depósito no valor de R$: " + valor);
+            }else{
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Erro na operação", 'e');
+            }
+            
         }catch (Exception ex){
             CaixaDeDialogo.obterinstancia().exibirMensagem("Erro: " + ex.getMessage(), 'e');
         }
@@ -264,15 +275,15 @@ public class InterfaceBanco extends javax.swing.JFrame {
     private void btnTransferirConta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirConta1ActionPerformed
         try{
             float valor = Float.parseFloat(txtValorConta1.getText());
-            boolean resultado = conta1.credito(valor);
-            if(resultado){
-                conta2.debito(valor);
+            ContaController controller = new ContaController();
+            boolean retorno = controller.credito(conta1, valor);
+            if(retorno){
+                controller.debito(conta2.getId(), valor);
                 atualizarInformacoesTela();
                 CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
-                System.out.println("Operação de Transferencia no valor de R$: " + valor);
+                System.out.println("Operação de transferencia no valor de R$: " + valor);
             }else{
-                CaixaDeDialogo.obterinstancia().exibirMensagem("Saldo insuficiente", 'a');
-                System.out.println("Erro: Operação de Transferencia no valor de R$: " + valor);
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Erro na operação", 'e');
             }
             
         }catch (Exception ex){
@@ -283,15 +294,15 @@ public class InterfaceBanco extends javax.swing.JFrame {
     private void tnTransferirConta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tnTransferirConta2ActionPerformed
         try{
             float valor = Float.parseFloat(txtValorConta2.getText());
-            boolean resultado = conta2.credito(valor);
-            if(resultado){
-                conta1.debito(valor);
+            ContaController controller = new ContaController();
+            boolean retorno = controller.credito(conta2, valor);
+            if(retorno){
+                controller.debito(conta1.getId(), valor);
                 atualizarInformacoesTela();
                 CaixaDeDialogo.obterinstancia().exibirMensagem("Operação realizada com sucesso", 'i');
-                System.out.println("Operação de Transferencia no valor de R$: " + valor);
+                System.out.println("Operação de transferencia no valor de R$: " + valor);
             }else{
-                CaixaDeDialogo.obterinstancia().exibirMensagem("Saldo insuficiente", 'a');
-                System.out.println("Erro: Operação de Transferencia no valor de R$: " + valor);
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Erro na operação", 'e');
             }
             
         }catch (Exception ex){
