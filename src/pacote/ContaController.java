@@ -17,6 +17,32 @@ import static pacote.Conexao.getConnection;
  */
 public class ContaController {
     
+    public Conta validarLogin(String conta, String senha){
+        try {
+            Conexao.abreConexao();
+            ResultSet rs = null;
+            
+            String sql = "SELECT * FROM contas WHERE conta = '"+ conta + "' AND senha = md5('" + senha + "')";
+            rs = Conexao.stmt.executeQuery(sql);
+            
+            Conta objeto = new Conta();
+            
+            if(rs.next()){
+                objeto.setId(rs.getInt("id"));
+                objeto.setConta(rs.getString("conta"));
+                objeto.setNome(rs.getString("nome"));
+                objeto.setCheque_especial(rs.getFloat("cheque_especial"));
+                return objeto;
+            }
+            
+            return null;
+            
+        }catch(SQLException ex){
+            return null;
+        }
+
+    }
+    
     public Conta buscar(int id){
         try {
             Conexao.abreConexao();

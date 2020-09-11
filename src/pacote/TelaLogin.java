@@ -5,15 +5,15 @@
  */
 package pacote;
 
+import ferramentas.CaixaDeDialogo;
+
 /**
  *
  * @author Leonardo
  */
 public class TelaLogin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaLogin
-     */
+     
     public TelaLogin() {
         initComponents();
     }
@@ -27,7 +27,7 @@ public class TelaLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pwdSenha = new javax.swing.JPasswordField();
+        txtSenha = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         btnAcessar = new javax.swing.JButton();
         txtConta = new javax.swing.JTextField();
@@ -35,12 +35,17 @@ public class TelaLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(pwdSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
+        getContentPane().add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 70, -1));
 
         jLabel1.setText("Conta");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, -1, -1));
 
         btnAcessar.setText("Acessar");
+        btnAcessar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcessarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnAcessar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 110, -1));
         getContentPane().add(txtConta, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 70, -1));
 
@@ -49,6 +54,36 @@ public class TelaLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcessarActionPerformed
+        // validar usuario ao banco de dados
+        try{
+            String conta = txtConta.getText().toString();
+            String senha = txtSenha.getText().toString();
+            
+            if(!conta.equals("") && !senha.equals("")){
+                ContaController controller = new ContaController();
+                Conta objeto = controller.validarLogin(conta, senha);
+                if(objeto != null){
+                    dispose();
+                    InterfaceBanco tela = new InterfaceBanco();
+                    tela.conta1 = objeto;
+                    tela.setVisible(true);
+                }else{
+                     CaixaDeDialogo.obterinstancia().exibirMensagem("Informe usuario e senha corretamente", 'i');
+                }
+            }else{
+                CaixaDeDialogo.obterinstancia().exibirMensagem("Informe usuario e senha", 'i');
+            }
+            
+           
+        }catch(Exception ex){
+            CaixaDeDialogo.obterinstancia().exibirMensagem(ex.getMessage(), 'e');
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnAcessarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -89,7 +124,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JButton btnAcessar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField pwdSenha;
     private javax.swing.JTextField txtConta;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }
